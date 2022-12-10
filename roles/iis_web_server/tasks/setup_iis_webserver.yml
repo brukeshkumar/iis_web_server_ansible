@@ -1,0 +1,9 @@
+---
+# tasks file for iis_web_server
+#
+
+- name: create windows virtual host on azure enviroment
+  include_tasks: vm_create_windows.yml
+
+- name: configure IIS web server on windows
+  include_tasks: configure_iis_webserver.yml

@@ -1,0 +1,14 @@
+---
+# tasks file for iis_web_server
+#
+
+- name: setup windows virtual host on azure enviroment
+  include_tasks: setup_iis_webserver.yml
+  vars:
+    vm_name: "{{ item }}"
+    azure_vm_public_ip: ''
+    azure_vm_public_hostname: ''
+  with_items:
+     - 'winiishost01'
+     - 'winiishost02'
+  delegate_to: localhost

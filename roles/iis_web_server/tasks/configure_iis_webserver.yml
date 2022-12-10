@@ -1,0 +1,29 @@
+- name: Install roles and feature for IIS web server
+  win_feature:
+    name: "Web-Server"
+    state: present
+    restart: no
+    include_sub_features: yes
+    include_management_tools: no
+
+- name: copy custome index file to input default path
+  win_copy:
+    src: "files/{{ item }}"
+    dest: "c:\\inetpub\\wwwroot\\{{ item }}"
+  with_items:
+    - "index.html"
+    - "cats.jpg"
+
+- name: create new website directory
+  win_file:
+    path: "c:\\inetpub\\wwwroot\\catsinternetlocal"
+    state: directory
+    
+- name: create new website
+  win_iis_website:
+    name: 'cats.internet.local'
+    state: started
+    port: 80
+    ip: "{{ azure_vm_public }}"
+    hostname: "{{ azure_vm_public_hostname }}"
+    physical_path: "c:\\inetpub\\wwwroot\\catsinternetlocal"
